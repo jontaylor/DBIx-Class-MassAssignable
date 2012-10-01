@@ -6,7 +6,7 @@ use warnings;
 use base qw(DBIx::Class);
 use Carp qw/croak carp/;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 __PACKAGE__->mk_group_accessors('inherited', qw/
         attr_accessible
@@ -74,6 +74,14 @@ sub _sanitize_attr_protected {
   
 }
 
+sub mass_assignable_columns {
+  my $self = shift;
+
+  my @columns = $self->columns();
+  $self->_sanitize_mass_assignment(\@columns);
+  return @columns if wantarray;
+  return \@columns;
+}
 
 1;
 __END__
@@ -88,6 +96,9 @@ DBIx::Class::MassAssignable - use set_columns in DBIx::Class safely in a web app
   __PACKAGE__->load_components(qw/ MassAssignable /);
   __PACKAGE__->attr_accessible([qw( post_title post_content )]);
   __PACKAGE__->attr_protected([qw( is_admin )]);
+
+  #Get a list of mass_assignable_columns
+  $row->mass_assignable_columns()
 
 =head1 DESCRIPTION
 

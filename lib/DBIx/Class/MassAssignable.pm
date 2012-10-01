@@ -45,7 +45,7 @@ sub _sanitize_attr_accessible {
   my $columns = shift;
 
   return unless defined $self->attr_accessible;
-  croak "attr_accessible must be passed an array ref" unless ref($self->attr_accessible) eq "ARRAY";
+  croak "attr_accessible must be passed a hash ref" unless ref($self->attr_accessible) eq "HASH";
 
   my %accessible = map { $_ => 1 } @{$self->attr_accessible} ;
   foreach my $key( keys %$columns ) {
@@ -63,7 +63,7 @@ sub _sanitize_attr_protected {
 
   return unless defined $self->attr_protected;
 
-  croak "attr_protected must be passed an array ref" unless ref($self->attr_accessible) eq "ARRAY";
+  croak "attr_protected must be passed an hash ref" unless ref($self->attr_accessible) eq "HASH";
   my %protected = map { $_ => 1 } @{$self->attr_protected};
   foreach my $key( keys %$columns ) {
     if($protected{$key}) {
@@ -77,8 +77,9 @@ sub _sanitize_attr_protected {
 sub mass_assignable_columns {
   my $self = shift;
 
-  my @columns = $self->columns();
-  $self->_sanitize_mass_assignment(\@columns);
+  my %columns = map { $_ => 1 } $self->columns();
+  $self->_sanitize_mass_assignment(\%columns);
+  my @columns = keys %columns;
   return @columns if wantarray;
   return \@columns;
 }

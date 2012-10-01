@@ -77,8 +77,9 @@ sub _sanitize_attr_protected {
 sub mass_assignable_columns {
   my $self = shift;
 
-  my @columns = $self->columns();
-  $self->_sanitize_mass_assignment(\@columns);
+  my %columns = map { $_ => 1 } ($self->columns());
+  $self->_sanitize_mass_assignment(\%columns);
+  my @columns = keys %columns;
   return @columns if wantarray;
   return \@columns;
 }

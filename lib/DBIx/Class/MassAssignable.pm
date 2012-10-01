@@ -81,20 +81,19 @@ __END__
 
 =head1 NAME
 
-DBIx::Class::MassAssignable - Perl extension for blah blah blah
+DBIx::Class::MassAssignable - use set_columns in DBIx::Class safely in a web app
 
 =head1 SYNOPSIS
 
-  use DBIx::Class::MassAssignable;
-  blah blah blah
+  __PACKAGE__->load_components(qw/ MassAssignable /);
+  __PACKAGE__->attr_accessible([qw( post_title post_content )]);
+  __PACKAGE__->attr_protected([qw( is_admin )]);
 
 =head1 DESCRIPTION
 
-Stub documentation for DBIx::Class::MassAssignable, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
+Load this as a component into your DBIx::Class result classes then specify either which columns
+can be mass assigned (whitelist), or which ones are not allowed (blacklist) using set_columns.
 
-Blah blah blah.
 
 =head2 EXPORT
 
@@ -104,18 +103,11 @@ None by default.
 
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+Concept stolen from Ruby on Rails.
 
 =head1 AUTHOR
 
-Jonathan Taylor, E<lt>jon@localE<gt>
+Jonathan Taylor, E<lt>jon@stackhaus.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

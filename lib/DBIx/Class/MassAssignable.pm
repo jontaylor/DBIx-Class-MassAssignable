@@ -6,7 +6,7 @@ use warnings;
 use base qw(DBIx::Class);
 use Carp qw/croak carp/;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 __PACKAGE__->mk_group_accessors('inherited', qw/
         attr_accessible
